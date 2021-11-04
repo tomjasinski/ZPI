@@ -22,6 +22,9 @@ module.exports = app => {
     router.get("/getFilteredMultipleFiles", files.getFilteredMultipleFiles);
     router.get("/getFilteredSingleFiles", files.getFilteredSingleFiles);
 
+    router.get("/getCategoriesMultipleFiles", files.categoriesMultiple);
+    router.get("/getCategoriesSingleFiles", files.categoriesOne);
+
     app.use('/api/', router);
     
   };

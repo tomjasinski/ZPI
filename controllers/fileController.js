@@ -343,12 +343,10 @@ exports.deleteOneSingleFile = (req, res) => {
 
 };
 
-
-/*TODO:
 //get available categories
-exports.categories = (req, res) => {
+exports.categoriesOne = (req, res) => {
   
-  Item.distinct("category")
+  singleFile.distinct("category")
     .then(data => {
       res.send(data);
     })
@@ -359,7 +357,22 @@ exports.categories = (req, res) => {
       });
     });  
 };
-*/
+
+exports.categoriesMultiple = (req, res) => {
+  
+  multipleFile.distinct("category")
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving categories. "
+      });
+    });  
+};
+
+
 
 const fileSizeFormatter = (bytes, decimal) => { //określa rozmiar pliku do wpisania do bazy
     if(bytes === 0){
