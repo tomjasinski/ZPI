@@ -8,6 +8,7 @@ exports.singleFileUpload = async (req, res, next) => {
         const file = new singleFile({
             title: req.body.title, //added
             description: req.body.description,
+            visUrl: req.body.visUrl,
             size: req.body.size,
             color: req.body.color,
             price: req.body.price,
@@ -41,6 +42,7 @@ exports.multipleFileUpload = async (req, res, next) => {
             title: req.body.title,
             name: req.body.name, //added
             description: req.body.description,
+            visUrl: req.body.visUrl,
             size: req.body.size,
             color: req.body.color,
             price: req.body.price,
