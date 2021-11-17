@@ -1,11 +1,13 @@
 module.exports = app => {
     const files = require("../controllers/fileController.js");
     const {upload} = require('../helpers/filehelper');
+    const { authJwt } = require("../middlewares");
+
 
     var router = require("express").Router();
   
-    router.post('/singleFile', upload.single('file'), files.singleFileUpload);
-    router.post('/multipleFiles', upload.array('files'), files.multipleFileUpload);
+    router.post('/singleFile', upload.single('file'), [authJwt.verifyToken, authJwt.isAdmin], files.singleFileUpload); //działania ograniczone do funkcji administratorskich
+    router.post('/multipleFiles', upload.array('files'), [authJwt.verifyToken, authJwt.isAdmin], files.multipleFileUpload);
     
     router.get('/getSingleFiles', files.getallSingleFiles);
     router.get('/getMultipleFiles', files.getallMultipleFiles);
@@ -16,8 +18,8 @@ module.exports = app => {
     router.put("/getMultipleFiles/:id", files.updateOneFileFromMultiples); //???????
     router.put("/getSingleFiles/:id", files.updateOneSingleFile); //??????
     
-    router.delete("/getMultipleFiles/:id", files.deleteFileFromMultiples); 
-    router.delete("/getSingleFiles/:id", files.deleteOneSingleFile); 
+    router.delete("/getMultipleFiles/:id", [authJwt.verifyToken, authJwt.isAdmin], files.deleteFileFromMultiples); 
+    router.delete("/getSingleFiles/:id", [authJwt.verifyToken, authJwt.isAdmin], files.deleteOneSingleFile); 
     
     router.get("/getFilteredMultipleFiles", files.getFilteredMultipleFiles);
     router.get("/getFilteredSingleFiles", files.getFilteredSingleFiles);
@@ -28,4 +30,3 @@ module.exports = app => {
     app.use('/api/', router);
     
   };
-  
