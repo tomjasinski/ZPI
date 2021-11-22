@@ -34,9 +34,8 @@ db.mongoose
   });
 
 
-//require("./routes/user.routes.js")(app);
 require("./routes/fileRoutes.js")(app);
-
+require("./routes/sub.routes")(app);//added
 require("./routes/auth.routes.js")(app); //added
 
 // set port, listen for requests
