@@ -15,8 +15,8 @@ module.exports = app => {
     router.get("/getMultipleFiles/:id", files.getOneFileFromMultiples); //get from MultipleFiles 
     router.get("/getSingleFiles/:id", files.getOneSingleFile); //get from SingleFiles 
     
-    router.put("/getMultipleFiles/:id", files.updateOneFileFromMultiples); //???????
-    router.put("/getSingleFiles/:id", files.updateOneSingleFile); //??????
+    router.put("/getMultipleFiles/:id", [authJwt.verifyToken, authJwt.isAdmin], files.updateOneFileFromMultiples);
+    router.put("/getSingleFiles/:id", [authJwt.verifyToken, authJwt.isAdmin], files.updateOneSingleFile);
     
     router.delete("/getMultipleFiles/:id", [authJwt.verifyToken, authJwt.isAdmin], files.deleteFileFromMultiples); 
     router.delete("/getSingleFiles/:id", [authJwt.verifyToken, authJwt.isAdmin], files.deleteOneSingleFile); 

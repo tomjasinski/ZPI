@@ -85,9 +85,10 @@ exports.delete = (req, res) => {
       });
   };
 
-  /*
+  
 //edit
   exports.update = (req, res) => {
+
     if (!req.body) {
       return res.status(400).send({
         message: "Data to update can not be empty!"
@@ -95,7 +96,8 @@ exports.delete = (req, res) => {
     }
   
     const id = req.params.id;
-  
+    req.body.password = bcrypt.hashSync(req.body.password, 8);
+    req.body.roles = [];
     User.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
       .then(data => {
         if (!data) {
@@ -110,7 +112,7 @@ exports.delete = (req, res) => {
         });
       });
   };
-  */
+
 
 //------------  
 

@@ -9,7 +9,7 @@ var corsOptions = {
     origin: "http://localhost:4200"
 };
 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));//added
+app.use('/uploads', express.static('uploads'));//added
 
 app.use(cors(corsOptions));
 
