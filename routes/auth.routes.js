@@ -23,7 +23,7 @@ module.exports = function(app) {
   app.post("/api/auth/signin", controller.signin);
 
   app.post("/api/auth/refreshtoken", controller.refreshToken);
-  app.put("/api/auth/put/:id", verifySignUp.checkDuplicateUsernameOrEmail, controller.update);
+  app.put("/api/auth/put/:id", [authJwt.verifyToken, authJwt.isAdmin], verifySignUp.checkDuplicateUsernameOrEmail, controller.update);
 
   app.delete("/api/auth/:id", [authJwt.verifyToken, authJwt.isAdmin], controller.delete); //added, ograniczony do admina
 
