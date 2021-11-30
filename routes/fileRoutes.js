@@ -12,7 +12,7 @@ module.exports = app => {
     router.get('/getallProducts', files.getallProducts);
     //router.get('/getMultipleFiles', files.getallMultipleFiles);
     
-    router.get("/getMultipleFiles/:id", files.getOneFileFromMultiples); 
+    //router.get("/getMultipleFiles/:id", files.getOneFileFromMultiples); 
     router.get("/getSingleFiles/:id", files.getOneSingleFile);
     
     router.put("/getMultipleFiles/:id", [authJwt.verifyToken, authJwt.isAdmin], files.updateOneFileFromMultiples);

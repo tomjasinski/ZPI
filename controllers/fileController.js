@@ -85,8 +85,16 @@ exports.getOneSingleFile = (req, res) => {
   
     singleFile.findById(id)
       .then(data => {
-        if (!data)
-          res.status(404).send({ message: "Not found File with id " + id });
+        if (!data){
+          multipleFile.findById(id)
+          .then(data => {
+            if (!data)
+              res.status(404).send({ message: "Not found File with id " + id });
+            else res.send(data);
+          })
+    
+         // res.status(404).send({ message: "Not found File with id " + id });
+        }
         else res.send(data);
       })
       .catch(err => {
