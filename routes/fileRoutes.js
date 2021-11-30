@@ -9,11 +9,11 @@ module.exports = app => {
     router.post('/singleFile', upload.single('file'), [authJwt.verifyToken, authJwt.isAdmin], files.singleFileUpload); //działania ograniczone do funkcji administratorskich
     router.post('/multipleFiles', upload.array('files'), [authJwt.verifyToken, authJwt.isAdmin], files.multipleFileUpload);
     
-    router.get('/getSingleFiles', files.getallSingleFiles);
-    router.get('/getMultipleFiles', files.getallMultipleFiles);
+    router.get('/getallProducts', files.getallProducts);
+    //router.get('/getMultipleFiles', files.getallMultipleFiles);
     
-    router.get("/getMultipleFiles/:id", files.getOneFileFromMultiples); //get from MultipleFiles 
-    router.get("/getSingleFiles/:id", files.getOneSingleFile); //get from SingleFiles 
+    router.get("/getMultipleFiles/:id", files.getOneFileFromMultiples); 
+    router.get("/getSingleFiles/:id", files.getOneSingleFile);
     
     router.put("/getMultipleFiles/:id", [authJwt.verifyToken, authJwt.isAdmin], files.updateOneFileFromMultiples);
     router.put("/getSingleFiles/:id", [authJwt.verifyToken, authJwt.isAdmin], files.updateOneSingleFile);

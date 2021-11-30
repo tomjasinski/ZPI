@@ -6,17 +6,20 @@ const multipleFile = db.multipleFiles;
 exports.singleFileUpload = async (req, res, next) => {
     try{
         const file = new singleFile({
-            title: req.body.title, //added
+            title: req.body.title,
             description: req.body.description,
             visUrl: req.body.visUrl,
             size: req.body.size,
+            length: req.body.length,
+            height: req.body.length,
+            width: req.body.width,
             color: req.body.color,
             price: req.body.price,
-            category: req.body.category,//add
+            category: req.body.category,
             fileName: req.file.originalname,
             filePath: req.file.path,
             fileType: req.file.mimetype,
-            fileSize: fileSizeFormatter(req.file.size, 2) // 0.00
+            fileSize: fileSizeFormatter(req.file.size, 2)
         });
         await file.save();
         res.status(201).send('File Uploaded Successfully');
@@ -40,13 +43,16 @@ exports.multipleFileUpload = async (req, res, next) => {
         });
         const multipleFiles = new multipleFile({
             title: req.body.title,
-            name: req.body.name, //added
+            name: req.body.name,
             description: req.body.description,
             visUrl: req.body.visUrl,
             size: req.body.size,
+            length: req.body.length,
+            height: req.body.length,
+            width: req.body.width,
             color: req.body.color,
             price: req.body.price,
-            category: req.body.category,//add
+            category: req.body.category,
             files: filesArray
         });
         await multipleFiles.save();
@@ -91,16 +97,19 @@ exports.getOneSingleFile = (req, res) => {
 
 };
 
-exports.getallSingleFiles = async (req, res, next) => {
+exports.getallProducts = async (req, res, next) => {
     try{
-        const files = await singleFile.find();
+        var files = await singleFile.find();
+        var files1 = await multipleFile.find();
+        files = files.concat(files1);
         res.status(200).send(files);
+
     }catch(error) {
         res.status(400).send(error.message);
     }
 
 };
-
+/*
 exports.getallMultipleFiles = async (req, res, next) => {
     try{
         const files = await multipleFile.find();
@@ -110,10 +119,10 @@ exports.getallMultipleFiles = async (req, res, next) => {
     }
 
 };
-
+*/
 exports.getFilteredMultipleFiles = (req, res) => {
   
-    const { title, category, size, price_from, price_to, color, sort} = req.query;
+    const { title, category, size, length_from, length_to, height_from, height_to, width_from, width_to, price_from, price_to, color, sort} = req.query;
     let query = {};
   
     if(title) {
@@ -130,6 +139,51 @@ exports.getFilteredMultipleFiles = (req, res) => {
      
       const sizes = size.split(',');
       query.size = sizes;
+    }
+
+    if(width_from || width_to){
+  
+      if(width_from && width_to){
+        query.width = {$gt: width_from, $lt: width_to};
+      }
+      else if (width_from){
+        
+        query.width = {$gt: width_from};
+      }
+      else{
+  
+        query.width = {$lt: width_to};
+      }
+    }
+
+    if(length_from || length_to){
+  
+      if(length_from && length_to){
+        query.length = {$gt: length_from, $lt: length_to};
+      }
+      else if (length_from){
+        
+        query.length = {$gt: length_from};
+      }
+      else{
+  
+        query.length = {$lt: length_to};
+      }
+    }
+
+    if(height_from || height_to){
+  
+      if(height_from && height_to){
+        query.height = {$gt: height_from, $lt: height_to};
+      }
+      else if (height_from){
+        
+        query.height = {$gt: width_from};
+      }
+      else{
+  
+        query.height = {$lt: height_to};
+      }
     }
   
     if(price_from || price_to){
@@ -181,7 +235,7 @@ exports.getFilteredMultipleFiles = (req, res) => {
 
 exports.getFilteredSingleFiles = (req, res) => {
   
-    const { title, category, size, price_from, price_to, color, sort} = req.query;
+    const { title, category, size, length_from, length_to, height_from, height_to, width_from, width_to, price_from, price_to, color, sort} = req.query;
     let query = {};
   
     if(title) {
@@ -198,6 +252,51 @@ exports.getFilteredSingleFiles = (req, res) => {
      
       const sizes = size.split(',');
       query.size = sizes;
+    }
+
+    if(width_from || width_to){
+  
+      if(width_from && width_to){
+        query.width = {$gt: width_from, $lt: width_to};
+      }
+      else if (width_from){
+        
+        query.width = {$gt: width_from};
+      }
+      else{
+  
+        query.width = {$lt: width_to};
+      }
+    }
+
+    if(length_from || length_to){
+  
+      if(length_from && length_to){
+        query.length = {$gt: length_from, $lt: length_to};
+      }
+      else if (length_from){
+        
+        query.length = {$gt: length_from};
+      }
+      else{
+  
+        query.length = {$lt: length_to};
+      }
+    }
+
+    if(height_from || height_to){
+  
+      if(height_from && height_to){
+        query.height = {$gt: height_from, $lt: height_to};
+      }
+      else if (height_from){
+        
+        query.height = {$gt: width_from};
+      }
+      else{
+  
+        query.height = {$lt: height_to};
+      }
     }
   
     if(price_from || price_to){
@@ -247,7 +346,7 @@ exports.getFilteredSingleFiles = (req, res) => {
 
 };
 
-exports.updateOneFileFromMultiples = (req, res) => { //??????????
+exports.updateOneFileFromMultiples = (req, res) => { 
     if (!req.body) {
         return res.status(400).send({
           message: "Data to update can not be empty!"
@@ -272,7 +371,7 @@ exports.updateOneFileFromMultiples = (req, res) => { //??????????
 
 };
 
-exports.updateOneSingleFile = (req, res) => { //????????
+exports.updateOneSingleFile = (req, res) => {
     if (!req.body) {
         return res.status(400).send({
           message: "Data to update can not be empty!"
@@ -346,7 +445,7 @@ exports.deleteOneSingleFile = (req, res) => {
 };
 
 //get available categories
-exports.categoriesOne = (req, res) => {
+exports.categoriesOne = async (req, res) => {
   
   singleFile.distinct("category")
     .then(data => {
@@ -373,7 +472,6 @@ exports.categoriesMultiple = (req, res) => {
       });
     });  
 };
-
 
 
 const fileSizeFormatter = (bytes, decimal) => { //określa rozmiar pliku do wpisania do bazy
