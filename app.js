@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const path = require('path'); //added
+const path = require('path');
 
 const app = express();
 
@@ -9,7 +9,7 @@ var corsOptions = {
     origin: "http://localhost:4200"
 };
 
-app.use('/uploads', express.static('uploads'));//added
+app.use('/uploads', express.static('uploads'));
 
 app.use(cors(corsOptions));
 
@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true}));
 
 const db = require("./models");
 
-const Role = db.role; //added
+const Role = db.role;
 
 db.mongoose
   .connect(db.url, {
@@ -34,17 +34,16 @@ db.mongoose
   });
 
 
-require("./routes/fileRoutes.js")(app);
-require("./routes/sub.routes")(app);//added
-require("./routes/auth.routes.js")(app); //added
+require("./routes/file.routes.js")(app);
+require("./routes/sub.routes")(app);
+require("./routes/auth.routes.js")(app);
 
 // set port, listen for requests
-const PORT = process.env.PORT || 8080; //4200
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
 });
  
-//added
 function initial() {
   Role.estimatedDocumentCount((err, count) => {
     if (!err && count === 0) {

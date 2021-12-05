@@ -16,7 +16,7 @@ module.exports = function(app) {
     [
       verifySignUp.checkDuplicateUsernameOrEmail,
       verifySignUp.checkRolesExisted
-    ], [authJwt.verifyToken, authJwt.isAdmin], //ograniczony do admina
+    ], [authJwt.verifyToken, authJwt.isAdmin],
     controller.signup
   );
 
@@ -25,6 +25,6 @@ module.exports = function(app) {
   app.post("/api/auth/refreshtoken", controller.refreshToken);
   app.put("/api/auth/put/:id", [authJwt.verifyToken, authJwt.isAdmin], verifySignUp.checkDuplicateUsernameOrEmail, controller.update);
 
-  app.delete("/api/auth/:id", [authJwt.verifyToken, authJwt.isAdmin], controller.delete); //added, ograniczony do admina
+  app.delete("/api/auth/:id", [authJwt.verifyToken, authJwt.isAdmin], controller.delete);
 
 };

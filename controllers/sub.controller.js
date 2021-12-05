@@ -17,7 +17,7 @@ async function run() {
   const response = await mailchimp.lists.addListMember(listId, {
   email_address: req.body.email_address,
 status: "subscribed"});
-    res.send("Successfully added contact as an audience member. The contact's id is " + response.id);
+    res.send("Successfully added contact to the list. The contact's id is " + response.id);
   }
   catch(error) {
       res.status(400).send(error.message);

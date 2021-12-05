@@ -63,24 +63,7 @@ exports.multipleFileUpload = async (req, res, next) => {
 
 };
 
-exports.getOneFileFromMultiples = (req, res) => {
-    const id = req.params.id;
-  
-    multipleFile.findById(id)
-      .then(data => {
-        if (!data)
-          res.status(404).send({ message: "Not found File with id " + id });
-        else res.send(data);
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .send({ message: "Error retrieving File with id=" + id });
-      });
-
-};
-
-exports.getOneSingleFile = (req, res) => {
+exports.getOneProduct = (req, res) => {
     const id = req.params.id;
   
     singleFile.findById(id)
@@ -93,7 +76,6 @@ exports.getOneSingleFile = (req, res) => {
             else res.send(data);
           })
     
-         // res.status(404).send({ message: "Not found File with id " + id });
         }
         else res.send(data);
       })
@@ -117,17 +99,7 @@ exports.getallProducts = async (req, res, next) => {
     }
 
 };
-/*
-exports.getallMultipleFiles = async (req, res, next) => {
-    try{
-        const files = await multipleFile.find();
-        res.status(200).send(files);
-    }catch(error) {
-        res.status(400).send(error.message);
-    }
 
-};
-*/
 exports.getFilteredMultipleFiles = (req, res) => {
   
     const { title, category, size, length_from, length_to, height_from, height_to, width_from, width_to, price_from, price_to, color, sort} = req.query;
@@ -331,7 +303,6 @@ exports.getFilteredSingleFiles = (req, res) => {
       query.color = colors;
     }
   
-    //sorting params
     let sort_param = {};
   
     if(sort){
@@ -404,7 +375,6 @@ exports.updateOneSingleFile = (req, res) => {
 
 };
 
-//Find all items with filters
 exports.deleteFileFromMultiples = (req, res) => {
 
     const id = req.params.id;

@@ -61,8 +61,7 @@ exports.signup = (req, res) => {
   });
 };
 
-
-// Delete an User with the specified id in the request
+// Delete an User with the  id
 exports.delete = (req, res) => {
     const id = req.params.id;
   
@@ -85,7 +84,6 @@ exports.delete = (req, res) => {
       });
   };
 
-  
 //edit
   exports.update = (req, res) => {
 
@@ -112,9 +110,6 @@ exports.delete = (req, res) => {
         });
       });
   };
-
-
-//------------  
 
 exports.signin = (req, res) => {
   User.findOne({
