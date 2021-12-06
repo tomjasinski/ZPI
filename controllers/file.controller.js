@@ -2,7 +2,6 @@ const db = require("../models");
 const singleFile = db.singleFiles;
 const multipleFile = db.multipleFiles;
 
-
 exports.singleFileUpload = async (req, res, next) => {
     try{
         const file = new singleFile({
@@ -375,82 +374,35 @@ exports.updateOneSingleFile = (req, res) => {
 
 };
 
-exports.deleteFileFromMultiples = (req, res) => {
-
+exports.deleteProduct = (req, res) => {
+   
     const id = req.params.id;
-
-    multipleFile.findByIdAndRemove(id)
-    .then(data => {
-      if (!data) {
-        res.status(404).send({
-          message: `Cannot delete File with id=${id}. Maybe File was not found!`
-        });
-      } else {
-        res.send({
-          message: "File was deleted successfully!"
-        });
-      }
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: "Could not delete File with id=" + id
-      });
-    });
-};
   
-exports.deleteOneSingleFile = (req, res) => {
-  
-    const id = req.params.id;
-
     singleFile.findByIdAndRemove(id)
-    .then(data => {
-      if (!data) {
-        res.status(404).send({
-          message: `Cannot delete File with id=${id}. Maybe File was not found!`
-        });
-      } else {
-        res.send({
-          message: "File was deleted successfully!"
-        });
-      }
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: "Could not delete File with id=" + id
+      .then(data => {
+        if (!data){
+          multipleFile.findByIdAndRemove(id)
+          .then(data => {
+            if (!data)
+              res.status(404).send({ message: `Cannot delete File with id=${id}. Maybe File was not found!` });
+            else res.send({message: "File was deleted successfully!"});
+          })
+    
+        }
+        else res.send({message: "File was deleted successfully!"});
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .send({ message: "Could not delete File with id=" + id });
       });
-    });
 
 };
-
+  
 //get available categories
-exports.categoriesOne = async (req, res) => {
-  
-  singleFile.distinct("category")
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving categories. "
-      });
-    });  
+exports.categories = async (req, res) => {
+  singleFile.distinct("category").then(data => {multipleFile.distinct("category").then(data1 => {data1 = data1.concat(data); res.send(data1) })});
 };
-
-exports.categoriesMultiple = (req, res) => {
-  
-  multipleFile.distinct("category")
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving categories. "
-      });
-    });  
-};
-
 
 const fileSizeFormatter = (bytes, decimal) => { //określa rozmiar pliku do wpisania do bazy
     if(bytes === 0){

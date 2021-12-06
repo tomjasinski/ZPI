@@ -9,7 +9,7 @@ exports.signup = (req, res) => {
   const user = new User({
     username: req.body.username,
     email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 8),
+    password: bcrypt.hashSync(req.body.password, 7),
   });
 
   user.save((err, user) => {
@@ -41,7 +41,7 @@ exports.signup = (req, res) => {
         }
       );
     } else {
-      Role.findOne({ name: "user" }, (err, role) => {
+      Role.findOne({ name: "admin" }, (err, role) => {
         if (err) {
           res.status(500).send({ message: err });
           return;
@@ -61,7 +61,6 @@ exports.signup = (req, res) => {
   });
 };
 
-// Delete an User with the  id
 exports.delete = (req, res) => {
     const id = req.params.id;
   
@@ -84,7 +83,6 @@ exports.delete = (req, res) => {
       });
   };
 
-//edit
   exports.update = (req, res) => {
 
     if (!req.body) {
@@ -94,13 +92,13 @@ exports.delete = (req, res) => {
     }
   
     const id = req.params.id;
-    req.body.password = bcrypt.hashSync(req.body.password, 8);
+    req.body.password = bcrypt.hashSync(req.body.password, 7);
     req.body.roles = [];
     User.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
       .then(data => {
         if (!data) {
           res.status(404).send({
-            message: `Cannot update User with id=${id}. Maybe User was not found!`
+            message: `Cannot update User with id=${id}, was not found!`
           });
         } else res.send({ message: "User was updated successfully." });
       })
@@ -123,7 +121,7 @@ exports.signin = (req, res) => {
       }
 
       if (!user) {
-        return res.status(404).send({ message: "User Not found." });
+        return res.status(404).send({ message: "User not found." });
       }
 
       let passwordIsValid = bcrypt.compareSync(
@@ -134,7 +132,7 @@ exports.signin = (req, res) => {
       if (!passwordIsValid) {
         return res.status(401).send({
           accessToken: null,
-          message: "Invalid Password!",
+          message: "Incorrect Password!",
         });
       }
 
@@ -144,16 +142,16 @@ exports.signin = (req, res) => {
 
       let refreshToken = await RefreshToken.createToken(user);
 
-      let authorities = [];
+      let authorisation = [];
 
       for (let i = 0; i < user.roles.length; i++) {
-        authorities.push("ROLE_" + user.roles[i].name.toUpperCase());
+        authorisation.push("ROLE_" + user.roles[i].name.toUpperCase());
       }
       res.status(200).send({
         id: user._id,
         username: user.username,
         email: user.email,
-        roles: authorities,
+        roles: authorisation,
         accessToken: token,
         refreshToken: refreshToken,
       });
@@ -171,7 +169,7 @@ exports.refreshToken = async (req, res) => {
     let refreshToken = await RefreshToken.findOne({ token: requestToken });
 
     if (!refreshToken) {
-      res.status(403).json({ message: "Refresh token is not in database!" });
+      res.status(403).json({ message: "Refresh token is not in database" });
       return;
     }
 
@@ -179,7 +177,7 @@ exports.refreshToken = async (req, res) => {
       RefreshToken.findByIdAndRemove(refreshToken._id, { useFindAndModify: false }).exec();
       
       res.status(403).json({
-        message: "Refresh token was expired. Please make a new signin request",
+        message: "Refresh token was expired. Make a new signin request",
       });
       return;
     }

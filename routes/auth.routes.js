@@ -14,16 +14,16 @@ module.exports = function(app) {
   app.post(
     "/api/auth/signup",
     [
-      verifySignUp.checkDuplicateUsernameOrEmail,
-      verifySignUp.checkRolesExisted
+      verifySignUp.checkDuplicatedUserData,
+      verifySignUp.checkRole
     ], [authJwt.verifyToken, authJwt.isAdmin],
     controller.signup
   );
 
   app.post("/api/auth/signin", controller.signin);
 
-  app.post("/api/auth/refreshtoken", controller.refreshToken);
-  app.put("/api/auth/put/:id", [authJwt.verifyToken, authJwt.isAdmin], verifySignUp.checkDuplicateUsernameOrEmail, controller.update);
+  app.post("/api/auth/refreshToken", controller.refreshToken);
+  app.put("/api/auth/put/:id", [authJwt.verifyToken, authJwt.isAdmin], verifySignUp.checkDuplicatedUserData, controller.update);
 
   app.delete("/api/auth/:id", [authJwt.verifyToken, authJwt.isAdmin], controller.delete);
 

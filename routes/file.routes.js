@@ -14,14 +14,12 @@ module.exports = app => {
     router.put("/getMultipleFiles/:id", [authJwt.verifyToken, authJwt.isAdmin], files.updateOneFileFromMultiples);
     router.put("/getSingleFiles/:id", [authJwt.verifyToken, authJwt.isAdmin], files.updateOneSingleFile);
     
-    router.delete("/getMultipleFiles/:id", [authJwt.verifyToken, authJwt.isAdmin], files.deleteFileFromMultiples); 
-    router.delete("/getSingleFiles/:id", [authJwt.verifyToken, authJwt.isAdmin], files.deleteOneSingleFile); 
+    router.delete("/getOneProduct/:id", [authJwt.verifyToken, authJwt.isAdmin], files.deleteProduct); 
     
     router.get("/getFilteredMultipleFiles", files.getFilteredMultipleFiles);
     router.get("/getFilteredSingleFiles", files.getFilteredSingleFiles);
 
-    router.get("/getCategoriesMultipleFiles", files.categoriesMultiple);
-    router.get("/getCategoriesSingleFiles", files.categoriesOne);
+    router.get("/getCategories", files.categories);
 
     app.use('/api/', router);
     
