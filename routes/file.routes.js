@@ -16,8 +16,7 @@ module.exports = app => {
     
     router.delete("/getOneProduct/:id", [authJwt.verifyToken, authJwt.isAdmin], files.deleteProduct); 
     
-    router.get("/getFilteredMultipleFiles", files.getFilteredMultipleFiles);
-    router.get("/getFilteredSingleFiles", files.getFilteredSingleFiles);
+    router.get("/getFilteredProducts", files.getFilteredProducts);
 
     router.get("/getCategories", files.categories);
 
