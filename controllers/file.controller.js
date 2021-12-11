@@ -21,7 +21,7 @@ exports.singleFileUpload = async (req, res, next) => {
             fileSize: fileSizeFormatter(req.file.size, 2)
         });
         await file.save();
-        res.status(201).send('File Uploaded Successfully');
+        res.status(201).send({message: 'File Uploaded Successfully'});
     }catch(error) {
         res.status(400).send(error.message);
     }
@@ -55,7 +55,7 @@ exports.multipleFileUpload = async (req, res, next) => {
             files: filesArray
         });
         await multipleFiles.save();
-        res.status(201).send('Files Uploaded Successfully');
+        res.status(201).send({message: 'Files Uploaded Successfully'});
     }catch(error) {
         res.status(400).send(error.message);
     }
