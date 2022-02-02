@@ -1,4 +1,4 @@
-﻿# ZPI -- backend
+Product visualization management system
 
 to run type ``` node app.js ```
 
