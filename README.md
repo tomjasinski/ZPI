@@ -1,10 +1,10 @@
-Product visualization management system
+# Product visualization management system
 
 to run type ``` node app.js ```
 
 Server is running on port 8080.
 
-Available functionalities:
+## Available functionalities:
 1. New user registration.
 2. User login.
 3. Editing a user account.
